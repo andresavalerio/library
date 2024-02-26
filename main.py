@@ -12,7 +12,7 @@ class ResponseBookModel(BaseModel):
     title: str
     author: str
     isbn: str
-    year: int
+    year: str
     genre: str
 
 
@@ -27,11 +27,8 @@ class BookController(ControllerModel):
 
     repository = BookRepository()
 
-    def get_books(self, bid: str, filter: str = None):
+    def get_books(self, bid: str):
         """Retrieve all books from the database."""
-        if filter:
-            return self.repository.read(bid, {"title": {"$regex": filter}})
-
         return self.repository.read(bid)
 
 
@@ -51,6 +48,6 @@ def index():
     response_model=ResponseBookModel,
     response_description="Get a book from the library.",
 )
-def get_books(bid: str, filter: str = None):
+def get_books(bid: str):
     """Get all books in the library."""
-    return book_controller.get_books(bid, filter)
+    return book_controller.get_books(bid)

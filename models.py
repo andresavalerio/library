@@ -3,6 +3,8 @@
 from abc import ABC
 from pymongo.collection import Collection
 
+from bson import ObjectId
+
 
 class RepositoryModel(ABC):
     """
@@ -18,9 +20,9 @@ class RepositoryModel(ABC):
         """Create a new document in the collection."""
         return self.collection.insert_one(data)
 
-    def read(self, id: str, data: dict = None, projection: dict = None):
+    def read(self, id: str, projection: dict = None):
         """Retrieve a document from the collection based on the given id."""
-        return self.collection.find_one({"_id": id}, data, projection)
+        return self.collection.find_one({"_id": ObjectId(id)}, projection)
 
     def update(self, id: str, data: dict, projection: dict = None):
         """Update a document in the collection with the given ID."""
